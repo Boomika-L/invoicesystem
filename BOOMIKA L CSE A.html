@@ -131,14 +131,13 @@
                 }
              function printInvoice()
              {
-            const element = document.getElementById('invoiceOutput');
-            html2pdf(element, {
-                margin: 1,
-                filename: 'invoice.pdf',
-                image: { type: 'jpeg', quality: 0.98 },
-                html2canvas: { scale: 2 },
-                jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
-            });
+            const printcontent = document.getElementById('invoice').innerHTML;
+            const original = document.body.innerHTML;
+              
+
+            document.body.innerHTML = printcontent;
+            window.print();
+            document.body.innerhtml = original;
         }
              
     </script>
