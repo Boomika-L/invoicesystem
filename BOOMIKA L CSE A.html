@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Invoice Generator</title>
+    <style>
+        /* Add your CSS styling here */
+        body{
+            background-color: bisque;
+        }
+        #brand
+        {
+            text-align: center;
+            border: 13px;
+        }
+        #heading
+        {
+            text-align: center;
+
+        }
+       #brand
+       {
+        background-color:black;
+        color: bisque;
+        padding: 30px;
+       }
+       #a
+       {
+        background-color: black;
+        color: bisque;
+        padding: 30px;
+       }
+       
+    </style>
+</head>
+<body>
+    <h2 id="heading">Invoice Generator</h2>
+    <form id="invoiceForm">
+        <table>
+      <h3>Customer Details</h3>
+      <tr>
+        <th><label for="customerName">Name:</label>
+        <input type="text" id="customerName" name="customerName" required><br><br></th>
+        <th><label for="phone">Phone Number:</label>
+            <input type="text" id="phone" name="phone number" required><br><br></th>
+        </tr>
+      <th><label for="address">Address:</label>
+        <input type="text" id="address" name="address" required><br><br></th>
+        </th>
+    </table>
+        <h3>Item Details</h3>
+        <table>
+       <th><label for="itemDescription">Item Description:</label>
+        <input type="text" id="itemDescription" name="itemDescription" required><br><br></th>
+       <th><label for="quantity">Quantity:</label>
+        <input type="number" id="quantity" name="quantity" required><br><br></th>
+       <th><label for="pricePerUnit">Price per Unit:</label>
+        <input type="number" id="pricePerUnit" name="pricePerUnit" required><br><br></th>
+       <th><label for="taxRate">Tax Rate (%):</label>
+        <input type="number" id="taxRate" name="taxRate" value="10" required><br><br></th>
+        <th>
+        <input type="button" value="Generate Invoice" onclick="generateInvoice()" id="generate">
+        <button onclick="printInvoice()">Print Invoice</button>
+        <button  onclick="reset" >RESET</button>
+
+        
+    </table>
+    </form>
+
+    <div id="invoiceOutput">
+        <!-- The generated invoice will be displayed here -->
+    </div>
+    
+
+    <script>
+        function generateInvoice()  {
+            // Get form data
+            var customerName = document.getElementById('customerName').value ;
+            var address = document.getElementById('address').value;
+            var phonenumber = document.getElementById('phone').value ;
+            
+            var itemDescription = document.getElementById('itemDescription').value;
+            var quantity = parseInt(document.getElementById('quantity').value);
+            var pricePerUnit = parseFloat(document.getElementById('pricePerUnit').value);
+            var taxRate = parseFloat(document.getElementById('taxRate').value);
+
+            // Calculate totals
+            var totalPrice = quantity * pricePerUnit;
+            var subtotal = totalPrice;
+            var tax = (subtotal * taxRate) / 100;
+            var totalAmount = subtotal + tax;
+            
+
+            // Generate invoice output
+            var invoiceOutput = `
+            <h1 id="brand">THE WORLD BRANDING</h1>
+                <h2>Invoice</h2>
+                <p><strong>Customer Details:</strong></p>
+                <p>Name: ${customerName}</p>
+                <p>Address: ${address}</p>
+                <p>phoneNumber: ${phonenumber}</p>
+                <hr color="black";>
+                <p><strong>Item Details:</strong></p>
+                <table border="1">
+                    <tr>
+                        <th>Item Description</th>
+                        <th>Quantity</th>
+                        <th>Price per Unit</th>
+                        <th>Total Price</th>
+                    </tr>
+                    
+                    <tr>
+                        <td>${itemDescription}</td>
+                        <td>${quantity}</td>
+                        <td>$${pricePerUnit.toFixed(2)}</td>
+                        <td>$${totalPrice.toFixed(2)}</td>
+                    </tr>
+                    
+                </table><hr color="black";>
+                <p>Subtotal: $${subtotal.toFixed(2)}</p>
+                <p>Tax (${taxRate}%): $${tax.toFixed(2)}</p>
+                <p><strong>Total Amount Due: $${totalAmount.toFixed(2)}</strong></p>
+                 <h2 id='a'>
+                 6385773822
+                 theworld@gmail.com
+                  pollachi,coimbatore,india
+                  </h2>
+                `;
+            
+
+            document.getElementById('invoiceOutput').innerHTML = invoiceOutput;
+                }
+             function printInvoice()
+             {
+            const element = document.getElementById('invoiceOutput');
+            html2pdf(element, {
+                margin: 1,
+                filename: 'invoice.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+            });
+        }
+             
+    </script>
+</body>
+</html>
